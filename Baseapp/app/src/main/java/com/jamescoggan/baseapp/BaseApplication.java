@@ -17,13 +17,30 @@ package com.jamescoggan.baseapp;
 
 import android.app.Application;
 
+import com.jamescoggan.baseapp.Modules.AppModule;
+import com.jamescoggan.baseapp.Modules.DaggerNetComponent;
+import com.jamescoggan.baseapp.Modules.NetComponent;
+import com.jamescoggan.baseapp.Modules.NetModule;
+
 import timber.log.Timber;
 
 public class BaseApplication extends Application {
+    private NetComponent mNetComponent;
+
+    @SuppressWarnings("deprecation")
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
 
         Timber.plant(new Timber.DebugTree());
+
+        mNetComponent = DaggerNetComponent.builder()
+                .appModule(new AppModule(this))
+                .netModule(new NetModule("https://api.github.com"))
+                .build();
+    }
+
+    public NetComponent getNetComponent() {
+        return mNetComponent;
     }
 }
