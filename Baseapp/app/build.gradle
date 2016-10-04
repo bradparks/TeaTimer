@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 24
@@ -17,14 +19,45 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    // Versions
+    ext.appcompat = '24.2.1'
+    ext.timberVersion = '4.3.1'
+    ext.butterKnifeVersion = '8.4.0'
+    ext.okHttpVersion = '3.4.1'
+    ext.retrofitVersion = '2.1.0'
+    ext.rxAndroidVersion = '1.2.1'
+    ext.rxJavaVersion = '1.2.0'
+    ext.daggerVersion = '2.7'
+
+    // App dependencies
+    compile "com.android.support:appcompat-v7:$appcompat"
+    compile "com.android.support:design:$appcompat"
+    compile "com.jakewharton.timber:timber:$timberVersion"
+    compile "com.squareup.okhttp3:okhttp:$okHttpVersion"
+    compile "com.squareup.okhttp3:okhttp-urlconnection:$okHttpVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    compile "com.jakewharton:butterknife:$butterKnifeVersion"
+    compile "com.google.dagger:dagger:$daggerVersion"
+
+    // Apt
+    apt "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
+    apt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    // Testing
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
     testCompile 'junit:junit:4.12'
 }
