@@ -37,8 +37,6 @@ public class BaseApplication extends Application {
 
         Timber.plant(new Timber.DebugTree());
 
-        // specify the full namespace of the component
-        // Dagger_xxxx (where xxxx = component name)
         mNetComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
                 .netModule(new NetModule("https://api.github.com"))
@@ -51,6 +49,7 @@ public class BaseApplication extends Application {
 
     }
 
+    @SuppressWarnings("unused")
     public NetComponent getNetComponent() {
         return mNetComponent;
     }

@@ -1,5 +1,6 @@
 package com.jamescoggan.baseapp.models;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Repository {
 
     String name;

@@ -12,10 +12,10 @@ import dagger.Component;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
+@SuppressWarnings("unused")
 @Singleton
 @Component(modules = {AppModule.class, NetModule.class})
 public interface NetComponent {
-    // downstream components need these exposed
     Retrofit retrofit();
 
     OkHttpClient okHttpClient();

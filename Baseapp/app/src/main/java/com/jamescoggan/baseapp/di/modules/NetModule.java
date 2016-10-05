@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetModule {
 
-    String mBaseUrl;
+    private String mBaseUrl;
 
     public NetModule(String baseUrl) {
         this.mBaseUrl = baseUrl;
@@ -36,8 +36,7 @@ public class NetModule {
     @Singleton
     Cache provideOkHttpCache(Application application) {
         int cacheSize = 10 * 1024 * 1024; // 10 MiB
-        Cache cache = new Cache(application.getCacheDir(), cacheSize);
-        return cache;
+        return new Cache(application.getCacheDir(), cacheSize);
     }
 
 
@@ -52,19 +51,16 @@ public class NetModule {
     @Provides
     @Singleton
     OkHttpClient provideOkHttpClient(Cache cache) {
-        OkHttpClient okHttpClient = new OkHttpClient();
-//        okHttpClient.setCache(cache);
-        return okHttpClient;
+        return new OkHttpClient.Builder().cache(cache).build();
     }
 
     @Provides
     @Singleton
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
-        Retrofit retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .baseUrl(mBaseUrl)
                 .client(okHttpClient)
                 .build();
-        return retrofit;
     }
 }

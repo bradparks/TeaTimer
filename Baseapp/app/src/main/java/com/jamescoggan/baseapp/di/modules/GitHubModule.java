@@ -12,7 +12,7 @@ public class GitHubModule {
 
     @Provides
     @UserScope
-    public GitHubApiInterface providesGitHubInterface(Retrofit retrofit) {
+    GitHubApiInterface providesGitHubInterface(Retrofit retrofit) {
         return retrofit.create(GitHubApiInterface.class);
     }
 }
