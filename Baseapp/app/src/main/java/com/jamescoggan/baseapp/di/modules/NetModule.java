@@ -1,4 +1,4 @@
-package com.jamescoggan.baseapp.Modules;
+package com.jamescoggan.baseapp.di.modules;
 
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -17,11 +17,10 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-@SuppressWarnings("unused")
 @Module
 public class NetModule {
 
-    private String mBaseUrl;
+    String mBaseUrl;
 
     public NetModule(String baseUrl) {
         this.mBaseUrl = baseUrl;
@@ -37,10 +36,12 @@ public class NetModule {
     @Singleton
     Cache provideOkHttpCache(Application application) {
         int cacheSize = 10 * 1024 * 1024; // 10 MiB
-        return new Cache(application.getCacheDir(), cacheSize);
+        Cache cache = new Cache(application.getCacheDir(), cacheSize);
+        return cache;
     }
 
-    @Provides
+
+    @Provides  // Dagger will only look for methods annotated with @Provides
     @Singleton
     Gson provideGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -51,16 +52,19 @@ public class NetModule {
     @Provides
     @Singleton
     OkHttpClient provideOkHttpClient(Cache cache) {
-        return new OkHttpClient.Builder().cache(cache).build();
+        OkHttpClient okHttpClient = new OkHttpClient();
+//        okHttpClient.setCache(cache);
+        return okHttpClient;
     }
 
     @Provides
     @Singleton
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
-        return new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .baseUrl(mBaseUrl)
                 .client(okHttpClient)
                 .build();
+        return retrofit;
     }
 }

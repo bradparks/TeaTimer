@@ -17,30 +17,45 @@ package com.jamescoggan.baseapp;
 
 import android.app.Application;
 
-import com.jamescoggan.baseapp.Modules.AppModule;
-import com.jamescoggan.baseapp.Modules.DaggerNetComponent;
-import com.jamescoggan.baseapp.Modules.NetComponent;
-import com.jamescoggan.baseapp.Modules.NetModule;
+import com.jamescoggan.baseapp.di.components.DaggerGitHubComponent;
+import com.jamescoggan.baseapp.di.components.DaggerNetComponent;
+import com.jamescoggan.baseapp.di.components.GitHubComponent;
+import com.jamescoggan.baseapp.di.components.NetComponent;
+import com.jamescoggan.baseapp.di.modules.AppModule;
+import com.jamescoggan.baseapp.di.modules.GitHubModule;
+import com.jamescoggan.baseapp.di.modules.NetModule;
 
 import timber.log.Timber;
 
 public class BaseApplication extends Application {
     private NetComponent mNetComponent;
+    private GitHubComponent mGitHubComponent;
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onCreate() {
         super.onCreate();
 
         Timber.plant(new Timber.DebugTree());
 
+        // specify the full namespace of the component
+        // Dagger_xxxx (where xxxx = component name)
         mNetComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
                 .netModule(new NetModule("https://api.github.com"))
                 .build();
+
+        mGitHubComponent = DaggerGitHubComponent.builder()
+                .netComponent(mNetComponent)
+                .gitHubModule(new GitHubModule())
+                .build();
+
     }
 
     public NetComponent getNetComponent() {
         return mNetComponent;
+    }
+
+    public GitHubComponent getGitHubComponent() {
+        return mGitHubComponent;
     }
 }

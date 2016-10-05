@@ -34,7 +34,7 @@ dependencies {
     ext.retrofitVersion = '2.1.0'
     ext.rxAndroidVersion = '1.2.1'
     ext.rxJavaVersion = '1.2.0'
-    ext.daggerVersion = '2.7'
+    ext.daggerVersion = '2.0'
 
     // App dependencies
     compile "com.android.support:appcompat-v7:$appcompat"

@@ -1,20 +1,42 @@
 package com.jamescoggan.baseapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.jamescoggan.baseapp.models.Repository;
+import com.jamescoggan.baseapp.network.interfaces.GitHubApiInterface;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @Inject
+    SharedPreferences mSharedPreferences;
+
+    @Inject
+    Retrofit mRetrofit;
+
+    @Inject
+    GitHubApiInterface mGitHubApiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,16 +45,31 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ((BaseApplication) getApplication()).getNetComponent().inject(this);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
+        fab.setOnClickListener(view -> {
+            Call<ArrayList<Repository>> call = mGitHubApiInterface.getRepository("codepath");
+
+            call.enqueue(new Callback<ArrayList<Repository>>() {
+                @Override
+                public void onResponse(Call<ArrayList<Repository>> call, Response<ArrayList<Repository>> response) {
+                    if (response.isSuccessful()) {
+                        Log.i("DEBUG", response.body().toString());
+                        Snackbar.make(view, "Data retrieved", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    } else {
+                        Log.i("ERROR", String.valueOf(response.code()));
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<Repository>> call, Throwable t) {
+
+                }
+            });
         });
+
+        ((BaseApplication) getApplication()).getGitHubComponent().inject(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
