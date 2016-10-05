@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -26,6 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,11 +54,11 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onResponse(Call<ArrayList<Repository>> call, Response<ArrayList<Repository>> response) {
                     if (response.isSuccessful()) {
-                        Log.i("DEBUG", response.body().toString());
+                        Timber.i(response.body().toString());
                         Snackbar.make(view, "Data retrieved", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     } else {
-                        Log.i("ERROR", String.valueOf(response.code()));
+                        Timber.i(String.valueOf(response.code()));
                     }
 
                 }
