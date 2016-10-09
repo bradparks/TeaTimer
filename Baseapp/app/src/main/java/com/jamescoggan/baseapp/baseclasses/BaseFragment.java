@@ -32,6 +32,11 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getViewResource();
 
+    public BaseApplication getApp() {
+        BaseActivity activity = (BaseActivity) getActivity();
+        return ((BaseApplication) activity.getApplication());
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
