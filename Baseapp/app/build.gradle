@@ -23,6 +23,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
 }
 
 dependencies {
@@ -34,7 +37,7 @@ dependencies {
     ext.retrofitVersion = '2.1.0'
     ext.rxAndroidVersion = '1.2.1'
     ext.rxJavaVersion = '1.2.0'
-    ext.daggerVersion = '2.7'
+    ext.daggerVersion = '2.0'
 
     // App dependencies
     compile "com.android.support:appcompat-v7:$appcompat"

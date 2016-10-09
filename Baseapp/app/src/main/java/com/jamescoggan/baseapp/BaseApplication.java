@@ -17,13 +17,44 @@ package com.jamescoggan.baseapp;
 
 import android.app.Application;
 
+import com.jamescoggan.baseapp.di.components.DaggerGitHubComponent;
+import com.jamescoggan.baseapp.di.components.DaggerNetComponent;
+import com.jamescoggan.baseapp.di.components.GitHubComponent;
+import com.jamescoggan.baseapp.di.components.NetComponent;
+import com.jamescoggan.baseapp.di.modules.AppModule;
+import com.jamescoggan.baseapp.di.modules.GitHubModule;
+import com.jamescoggan.baseapp.di.modules.NetModule;
+
 import timber.log.Timber;
 
 public class BaseApplication extends Application {
+    private NetComponent mNetComponent;
+    private GitHubComponent mGitHubComponent;
+
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
 
         Timber.plant(new Timber.DebugTree());
+
+        mNetComponent = DaggerNetComponent.builder()
+                .appModule(new AppModule(this))
+                .netModule(new NetModule("https://api.github.com"))
+                .build();
+
+        mGitHubComponent = DaggerGitHubComponent.builder()
+                .netComponent(mNetComponent)
+                .gitHubModule(new GitHubModule())
+                .build();
+
+    }
+
+    @SuppressWarnings("unused")
+    public NetComponent getNetComponent() {
+        return mNetComponent;
+    }
+
+    public GitHubComponent getGitHubComponent() {
+        return mGitHubComponent;
     }
 }
