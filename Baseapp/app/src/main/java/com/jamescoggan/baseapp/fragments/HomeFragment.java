@@ -22,22 +22,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jamescoggan.baseapp.BaseApplication;
 import com.jamescoggan.baseapp.R;
 import com.jamescoggan.baseapp.baseclasses.BaseFragment;
 import com.jamescoggan.baseapp.models.Repository;
 import com.jamescoggan.baseapp.network.interfaces.GitHubApiInterface;
 
-import java.util.ArrayList;
-
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class HomeFragment extends BaseFragment {
@@ -68,26 +65,29 @@ public class HomeFragment extends BaseFragment {
 
     @OnClick(R.id.home_fab)
     public void onFabClick() {
-        Call<ArrayList<Repository>> call = mGitHubApiInterface.getRepository("codepath");
+        mGitHubApiInterface.getRepository("codepath")
+                .flatMap(Observable::from)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onNextRepository,
+                        this::onErrorRepository,
+                        this::onCompleteRepository
+                );
+    }
 
-        call.enqueue(new Callback<ArrayList<Repository>>() {
-            @Override
-            public void onResponse(Call<ArrayList<Repository>> call, Response<ArrayList<Repository>> response) {
-                if (response.isSuccessful()) {
-                    Timber.i(response.body().toString());
-                    Snackbar.make(getView(), "Data retrieved", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                } else {
-                    Timber.i(String.valueOf(response.code()));
-                }
+    private void onNextRepository(Repository repository) {
+        Timber.d("Received repo %s", repository.getFullName());
+        assert getView() != null;
+        Snackbar.make(getView(), "Data retrieved", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
 
-            }
+    private void onCompleteRepository() {
+        Timber.d("Completed request");
+    }
 
-            @Override
-            public void onFailure(Call<ArrayList<Repository>> call, Throwable t) {
-
-            }
-        });
+    private void onErrorRepository(Throwable throwable) {
+        throwable.printStackTrace();
     }
 
     @Override
