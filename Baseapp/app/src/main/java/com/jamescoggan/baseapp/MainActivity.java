@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.jamescoggan.baseapp.baseclasses.BaseActivity;
 import com.jamescoggan.baseapp.baseclasses.BaseFragment;
+import com.jamescoggan.baseapp.fragments.CameraFragment;
 import com.jamescoggan.baseapp.fragments.HomeFragment;
 import com.jamescoggan.baseapp.network.interfaces.GitHubApiInterface;
 
@@ -78,7 +79,6 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -108,27 +108,21 @@ public class MainActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch (id){
+            case R.id.nav_home:
+                loadFragment(new HomeFragment());
+                break;
+            case R.id.nav_camera:
+                loadFragment(new CameraFragment());
+                break;
+            // Todo: implement others
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
