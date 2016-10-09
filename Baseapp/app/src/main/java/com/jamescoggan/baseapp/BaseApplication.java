@@ -16,6 +16,7 @@
 package com.jamescoggan.baseapp;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.jamescoggan.baseapp.di.components.DaggerGitHubComponent;
 import com.jamescoggan.baseapp.di.components.DaggerNetComponent;
@@ -24,16 +25,21 @@ import com.jamescoggan.baseapp.di.components.NetComponent;
 import com.jamescoggan.baseapp.di.modules.AppModule;
 import com.jamescoggan.baseapp.di.modules.GitHubModule;
 import com.jamescoggan.baseapp.di.modules.NetModule;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import timber.log.Timber;
 
 public class BaseApplication extends Application {
     private NetComponent mNetComponent;
     private GitHubComponent mGitHubComponent;
+    private RefWatcher refWatcher;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        refWatcher = LeakCanary.install(this);
 
         Timber.plant(new Timber.DebugTree());
 
@@ -56,5 +62,11 @@ public class BaseApplication extends Application {
 
     public GitHubComponent getGitHubComponent() {
         return mGitHubComponent;
+    }
+
+    // Used by leakcanary
+    public static RefWatcher getRefWatcher(Context context) {
+        BaseApplication application = (BaseApplication) context.getApplicationContext();
+        return application.refWatcher;
     }
 }
