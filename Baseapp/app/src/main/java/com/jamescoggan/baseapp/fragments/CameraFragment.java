@@ -23,4 +23,6 @@ public class CameraFragment extends BaseFragment {
     protected int getViewResource() {
         return R.layout.fragment_camera;
     }
+
+
 }

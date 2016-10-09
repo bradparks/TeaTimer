@@ -17,5 +17,11 @@ package com.jamescoggan.baseapp.baseclasses;
 
 import android.support.v7.app.AppCompatActivity;
 
+import com.jamescoggan.baseapp.BaseApplication;
+
 public abstract class BaseActivity extends AppCompatActivity {
+
+    public BaseApplication getApp() {
+        return ((BaseApplication) getApplication());
+    }
 }

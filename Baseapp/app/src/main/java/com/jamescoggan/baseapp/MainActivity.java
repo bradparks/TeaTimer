@@ -1,6 +1,5 @@
 package com.jamescoggan.baseapp;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -15,25 +14,12 @@ import com.jamescoggan.baseapp.baseclasses.BaseActivity;
 import com.jamescoggan.baseapp.baseclasses.BaseFragment;
 import com.jamescoggan.baseapp.fragments.CameraFragment;
 import com.jamescoggan.baseapp.fragments.HomeFragment;
-import com.jamescoggan.baseapp.network.interfaces.GitHubApiInterface;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Retrofit;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    @Inject
-    SharedPreferences mSharedPreferences;
-
-    @Inject
-    Retrofit mRetrofit;
-
-    @Inject
-    GitHubApiInterface mGitHubApiInterface;
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
@@ -54,8 +40,6 @@ public class MainActivity extends BaseActivity
         ButterKnife.bind(this);
 
         setupViews();
-
-        ((BaseApplication) getApplication()).getGitHubComponent().inject(this);
     }
 
     private void setupViews() {
@@ -113,7 +97,7 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case R.id.nav_home:
                 loadFragment(new HomeFragment());
                 break;
