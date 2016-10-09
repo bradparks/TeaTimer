@@ -18,6 +18,7 @@ package com.jamescoggan.baseapp;
 import android.app.Application;
 import android.content.Context;
 
+import com.jamescoggan.baseapp.Utils.PrimaryKeyFactory;
 import com.jamescoggan.baseapp.di.components.DaggerGitHubComponent;
 import com.jamescoggan.baseapp.di.components.DaggerNetComponent;
 import com.jamescoggan.baseapp.di.components.GitHubComponent;
@@ -28,6 +29,8 @@ import com.jamescoggan.baseapp.di.modules.NetModule;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import timber.log.Timber;
 
 public class BaseApplication extends Application {
@@ -53,6 +56,11 @@ public class BaseApplication extends Application {
                 .gitHubModule(new GitHubModule())
                 .build();
 
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder().build();
+        Realm.deleteRealm(config);
+        Realm.setDefaultConfiguration(config);
+        PrimaryKeyFactory.getInstance().initialize(Realm.getDefaultInstance());
     }
 
     @SuppressWarnings("unused")
