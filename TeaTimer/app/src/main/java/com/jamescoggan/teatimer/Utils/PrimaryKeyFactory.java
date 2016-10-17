@@ -1,7 +1,5 @@
 package com.jamescoggan.teatimer.Utils;
 
-import android.util.Log;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -12,12 +10,12 @@ import io.realm.RealmModel;
 import io.realm.RealmObject;
 import io.realm.RealmObjectSchema;
 import io.realm.RealmSchema;
-
-import static java.lang.String.format;
+import timber.log.Timber;
 
 /**
  * https://github.com/realm/realm-java/issues/469#issuecomment-196798253
  */
+@SuppressWarnings("unused")
 public class PrimaryKeyFactory {
 
     /**
@@ -61,18 +59,16 @@ public class PrimaryKeyFactory {
         for (final Class<? extends RealmModel> c : configuration.getRealmObjectClasses()) {
 
             final RealmObjectSchema objectSchema = realmSchema.get(c.getSimpleName());
-            Log.i(getClass().getSimpleName(), format("schema for class %s : %s", c.getName(), objectSchema));
+            Timber.i("schema for class %s : %s", c.getName(), objectSchema);
             if (objectSchema != null && objectSchema.hasPrimaryKey()) {
                 Number keyValue = null;
                 try {
                     keyValue = realm.where(c).max(PRIMARY_KEY_FIELD);
                 } catch (ArrayIndexOutOfBoundsException ex) {
-                    Log.d(getClass().getSimpleName(), format("error while getting number primary key %s " +
-                            " for %s", PRIMARY_KEY_FIELD, c.getName()), ex);
+                    Timber.d("error while getting number primary key %s for %s", PRIMARY_KEY_FIELD, c.getName());
                 }
                 if (keyValue == null) {
-                    Log.w(getClass().getSimpleName(), format("can't find number primary key %s " +
-                            " for %s.", PRIMARY_KEY_FIELD, c.getName()));
+                    Timber.w("can't find number primary key %s for %s.", PRIMARY_KEY_FIELD, c.getName());
                 } else {
                     keys.put(c, new AtomicLong(keyValue.longValue()));
                 }
@@ -89,7 +85,7 @@ public class PrimaryKeyFactory {
         }
         AtomicLong l = keys.get(clazz);
         if (l == null) {
-            Log.i(getClass().getSimpleName(), "There was no primary keys for " + clazz.getName());
+            Timber.i("There was no primary keys for %s", clazz.getName());
             //RealmConfiguration#getRealmObjectClasses() returns only classes with existing instances
             //so we need to store value for the first instance created
             l = new AtomicLong(0);
