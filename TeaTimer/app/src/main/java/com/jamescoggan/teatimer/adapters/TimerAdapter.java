@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.jamescoggan.teatimer.R;
 import com.jamescoggan.teatimer.models.Timer;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.RealmResults;
 
 public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.ViewHolder> {
@@ -17,11 +19,12 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.ViewHolder> 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.list_timer_name)
         TextView name;
 
-        ViewHolder(View itemView) {
-            super(itemView);
-            name = (TextView) itemView.findViewById(R.id.list_timer_name);
+        ViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
         }
     }
 
