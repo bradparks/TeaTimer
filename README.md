@@ -1,2 +1,2 @@
-# baseapp
-BasedApp repo to be shared and reused as starting point
+# TeaTimer
+Tea Timer application for Android and Android Wear

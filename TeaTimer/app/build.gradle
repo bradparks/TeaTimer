@@ -1,0 +1,78 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'realm-android'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
+    defaultConfig {
+        applicationId "com.jamescoggan.baseapp"
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+}
+
+dependencies {
+    // Versions
+    ext.appcompat = '24.2.1'
+    ext.timberVersion = '4.3.1'
+    ext.butterKnifeVersion = '8.4.0'
+    ext.okHttpVersion = '3.4.1'
+    ext.retrofitVersion = '2.1.0'
+    ext.rxAndroidVersion = '1.2.1'
+    ext.rxJavaVersion = '1.2.0'
+    ext.daggerVersion = '2.0'
+    ext.leakCanaryVersion = '1.5'
+
+    // App dependencies
+    compile "com.android.support:appcompat-v7:$appcompat"
+    compile "com.android.support:design:$appcompat"
+    compile "com.jakewharton.timber:timber:$timberVersion"
+    compile "io.reactivex:rxandroid:$rxAndroidVersion"
+    compile "io.reactivex:rxjava:$rxJavaVersion"
+    compile "com.squareup.okhttp3:okhttp:$okHttpVersion"
+    compile "com.squareup.okhttp3:okhttp-urlconnection:$okHttpVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    compile "com.jakewharton:butterknife:$butterKnifeVersion"
+    compile "com.google.dagger:dagger:$daggerVersion"
+
+    // Flavour dependant
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+
+
+    // Apt
+    apt "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
+    apt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    // Testing
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    // Tests
+    testCompile 'junit:junit:4.12'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+}
