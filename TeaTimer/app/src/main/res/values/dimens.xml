@@ -7,4 +7,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="list_timer_item_padding">10dp</dimen>
+    <dimen name="dialog_time_value_text_size">40sp</dimen>
+    <dimen name="backspace_margin">15dp</dimen>
+    <dimen name="dialog_time_margin">15dp</dimen>
+    <dimen name="divider_margin">5dp</dimen>
+    <dimen name="dialog_numbers_margin">15dp</dimen>
 </resources>
