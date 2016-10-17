@@ -1,4 +1,4 @@
-package com.jamescoggan.baseapp;
+package com.jamescoggan.teatimer;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

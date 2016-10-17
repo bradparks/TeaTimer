@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jamescoggan.baseapp.fragments;
+package com.jamescoggan.teatimer.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,11 +22,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jamescoggan.baseapp.R;
-import com.jamescoggan.baseapp.Utils.PrimaryKeyFactory;
-import com.jamescoggan.baseapp.baseclasses.BaseFragment;
-import com.jamescoggan.baseapp.models.Repository;
-import com.jamescoggan.baseapp.network.interfaces.GitHubApiInterface;
+import com.jamescoggan.teatimer.R;
+import com.jamescoggan.teatimer.Utils.PrimaryKeyFactory;
+import com.jamescoggan.teatimer.baseclasses.BaseFragment;
+import com.jamescoggan.teatimer.models.Repository;
+import com.jamescoggan.teatimer.network.interfaces.GitHubApiInterface;
 
 import javax.inject.Inject;
 

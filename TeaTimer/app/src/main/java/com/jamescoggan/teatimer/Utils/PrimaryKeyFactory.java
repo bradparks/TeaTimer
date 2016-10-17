@@ -1,4 +1,4 @@
-package com.jamescoggan.baseapp.Utils;
+package com.jamescoggan.teatimer.Utils;
 
 import android.util.Log;
 

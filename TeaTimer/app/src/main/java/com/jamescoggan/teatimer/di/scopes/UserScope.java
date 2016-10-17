@@ -1,4 +1,4 @@
-package com.jamescoggan.baseapp.di.scopes;
+package com.jamescoggan.teatimer.di.scopes;
 
 import javax.inject.Scope;
 

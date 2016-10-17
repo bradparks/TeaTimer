@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jamescoggan.baseapp.baseclasses;
+package com.jamescoggan.teatimer.baseclasses;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,7 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jamescoggan.baseapp.BaseApplication;
+import com.jamescoggan.teatimer.BaseApplication;
 import com.squareup.leakcanary.RefWatcher;
 
 public abstract class BaseFragment extends Fragment {

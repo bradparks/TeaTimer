@@ -1,4 +1,4 @@
-package com.jamescoggan.baseapp;
+package com.jamescoggan.teatimer;
 
 import org.junit.Test;
 

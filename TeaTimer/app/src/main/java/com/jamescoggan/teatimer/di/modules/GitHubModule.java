@@ -1,7 +1,7 @@
-package com.jamescoggan.baseapp.di.modules;
+package com.jamescoggan.teatimer.di.modules;
 
-import com.jamescoggan.baseapp.di.scopes.UserScope;
-import com.jamescoggan.baseapp.network.interfaces.GitHubApiInterface;
+import com.jamescoggan.teatimer.di.scopes.UserScope;
+import com.jamescoggan.teatimer.network.interfaces.GitHubApiInterface;
 
 import dagger.Module;
 import dagger.Provides;

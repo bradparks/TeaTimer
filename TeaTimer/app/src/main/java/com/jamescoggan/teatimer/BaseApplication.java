@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jamescoggan.baseapp;
+package com.jamescoggan.teatimer;
 
 import android.app.Application;
 import android.content.Context;
 
-import com.jamescoggan.baseapp.Utils.PrimaryKeyFactory;
-import com.jamescoggan.baseapp.di.components.DaggerGitHubComponent;
-import com.jamescoggan.baseapp.di.components.DaggerNetComponent;
-import com.jamescoggan.baseapp.di.components.GitHubComponent;
-import com.jamescoggan.baseapp.di.components.NetComponent;
-import com.jamescoggan.baseapp.di.modules.AppModule;
-import com.jamescoggan.baseapp.di.modules.GitHubModule;
-import com.jamescoggan.baseapp.di.modules.NetModule;
+import com.jamescoggan.teatimer.Utils.PrimaryKeyFactory;
+import com.jamescoggan.teatimer.di.components.DaggerGitHubComponent;
+import com.jamescoggan.teatimer.di.components.DaggerNetComponent;
+import com.jamescoggan.teatimer.di.components.GitHubComponent;
+import com.jamescoggan.teatimer.di.components.NetComponent;
+import com.jamescoggan.teatimer.di.modules.AppModule;
+import com.jamescoggan.teatimer.di.modules.GitHubModule;
+import com.jamescoggan.teatimer.di.modules.NetModule;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 

@@ -1,4 +1,4 @@
-package com.jamescoggan.baseapp.di.modules;
+package com.jamescoggan.teatimer.di.modules;
 
 import android.app.Application;
 

@@ -1,10 +1,10 @@
-package com.jamescoggan.baseapp.di.components;
+package com.jamescoggan.teatimer.di.components;
 
 
 import android.content.SharedPreferences;
 
-import com.jamescoggan.baseapp.di.modules.AppModule;
-import com.jamescoggan.baseapp.di.modules.NetModule;
+import com.jamescoggan.teatimer.di.modules.AppModule;
+import com.jamescoggan.teatimer.di.modules.NetModule;
 
 import javax.inject.Singleton;
 

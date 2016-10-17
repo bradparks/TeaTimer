@@ -1,4 +1,4 @@
-package com.jamescoggan.baseapp;
+package com.jamescoggan.teatimer;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,10 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.jamescoggan.baseapp.baseclasses.BaseActivity;
-import com.jamescoggan.baseapp.baseclasses.BaseFragment;
-import com.jamescoggan.baseapp.fragments.CameraFragment;
-import com.jamescoggan.baseapp.fragments.HomeFragment;
+import com.jamescoggan.teatimer.baseclasses.BaseActivity;
+import com.jamescoggan.teatimer.baseclasses.BaseFragment;
+import com.jamescoggan.teatimer.fragments.CameraFragment;
+import com.jamescoggan.teatimer.fragments.HomeFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

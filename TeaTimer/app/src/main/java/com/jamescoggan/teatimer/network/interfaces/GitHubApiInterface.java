@@ -1,6 +1,6 @@
-package com.jamescoggan.baseapp.network.interfaces;
+package com.jamescoggan.teatimer.network.interfaces;
 
-import com.jamescoggan.baseapp.models.Repository;
+import com.jamescoggan.teatimer.models.Repository;
 
 import java.util.List;
 

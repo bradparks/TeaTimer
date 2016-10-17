@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jamescoggan.baseapp.fragments;
+package com.jamescoggan.teatimer.baseclasses;
 
-import com.jamescoggan.baseapp.R;
-import com.jamescoggan.baseapp.baseclasses.BaseFragment;
+import android.support.v7.app.AppCompatActivity;
 
-public class CameraFragment extends BaseFragment {
-    @Override
-    protected int getViewResource() {
-        return R.layout.fragment_camera;
+import com.jamescoggan.teatimer.BaseApplication;
+
+public abstract class BaseActivity extends AppCompatActivity {
+
+    public BaseApplication getApp() {
+        return ((BaseApplication) getApplication());
     }
-
-
 }
