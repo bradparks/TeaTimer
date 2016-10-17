@@ -19,13 +19,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.jamescoggan.teatimer.Utils.PrimaryKeyFactory;
-import com.jamescoggan.teatimer.di.components.DaggerGitHubComponent;
-import com.jamescoggan.teatimer.di.components.DaggerNetComponent;
-import com.jamescoggan.teatimer.di.components.GitHubComponent;
-import com.jamescoggan.teatimer.di.components.NetComponent;
-import com.jamescoggan.teatimer.di.modules.AppModule;
-import com.jamescoggan.teatimer.di.modules.GitHubModule;
-import com.jamescoggan.teatimer.di.modules.NetModule;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -34,8 +27,6 @@ import io.realm.RealmConfiguration;
 import timber.log.Timber;
 
 public class BaseApplication extends Application {
-    private NetComponent mNetComponent;
-    private GitHubComponent mGitHubComponent;
     private RefWatcher refWatcher;
 
     @Override
@@ -46,30 +37,11 @@ public class BaseApplication extends Application {
 
         Timber.plant(new Timber.DebugTree());
 
-        mNetComponent = DaggerNetComponent.builder()
-                .appModule(new AppModule(this))
-                .netModule(new NetModule("https://api.github.com"))
-                .build();
-
-        mGitHubComponent = DaggerGitHubComponent.builder()
-                .netComponent(mNetComponent)
-                .gitHubModule(new GitHubModule())
-                .build();
-
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().build();
         Realm.deleteRealm(config);
         Realm.setDefaultConfiguration(config);
         PrimaryKeyFactory.getInstance().initialize(Realm.getDefaultInstance());
-    }
-
-    @SuppressWarnings("unused")
-    public NetComponent getNetComponent() {
-        return mNetComponent;
-    }
-
-    public GitHubComponent getGitHubComponent() {
-        return mGitHubComponent;
     }
 
     // Used by leakcanary
