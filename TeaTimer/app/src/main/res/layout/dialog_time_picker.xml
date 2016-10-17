@@ -1,6 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dialog_background_color"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_time_margin">
+
+        <ImageView
+            android:id="@+id/dialog_backspace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/backspace_margin"
+            android:layout_marginRight="@dimen/backspace_margin"
+            android:contentDescription="@string/description_backspace"
+            android:src="@drawable/backspace"
+            android:tint="@android:color/background_light" />
+
+        <TextView
+            android:id="@+id/dialog_time_value"
+            style="@style/DialogTimeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/dialog_backspace"
+            android:layout_toStartOf="@id/dialog_backspace"
+            android:gravity="center_horizontal"
+            android:text="@string/default_clock_value" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/md_divider_height"
+        android:layout_margin="@dimen/divider_margin"
+        android:background="@android:color/darker_gray"
+        android:contentDescription="@string/spacer" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_numbers_margin"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/dialog_one"
+            style="@style/DialogTimeText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/one" />
+
+        <TextView
+            android:id="@+id/dialog_two"
+            style="@style/DialogTimeText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/two" />
+
+        <TextView
+            android:id="@+id/dialog_three"
+            style="@style/DialogTimeText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/three" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_numbers_margin"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/dialog_four"
+            style="@style/DialogTimeText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/four" />
+
+        <TextView
+            android:id="@+id/dialog_five"
+            style="@style/DialogTimeText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/five" />
+
+        <TextView
+            android:id="@+id/dialog_six"
+            style="@style/DialogTimeText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/six" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_numbers_margin"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/dialog_seven"
+            style="@style/DialogTimeText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/seven" />
+
+        <TextView
+            android:id="@+id/dialog_eight"
+            style="@style/DialogTimeText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/eight" />
+
+        <TextView
+            android:id="@+id/dialog_nine"
+            style="@style/DialogTimeText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/nine" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dialog_zero"
+        style="@style/DialogTimeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/dialog_numbers_margin"
+        android:text="@string/zero" />
 
 </LinearLayout>
