@@ -54,4 +54,8 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.ViewHolder> 
         return itemList.size();
     }
 
+    public Timer getItemAtPosition(int position) {
+        return itemList.get(position);
+    }
+
 }
