@@ -16,14 +16,20 @@
 package com.jamescoggan.teatimer.fragments;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.jamescoggan.teatimer.R;
+import com.jamescoggan.teatimer.Utils.PrimaryKeyFactory;
+import com.jamescoggan.teatimer.adapters.RecyclerItemClickListener;
+import com.jamescoggan.teatimer.adapters.TimerAdapter;
 import com.jamescoggan.teatimer.baseclasses.BaseFragment;
 import com.jamescoggan.teatimer.models.Timer;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
@@ -34,6 +40,12 @@ public class HomeFragment extends BaseFragment {
 
     private Realm realm;
     RealmResults<Timer> timers;
+
+    TimerAdapter timerAdapter;
+    RecyclerView.LayoutManager mLayoutManager;
+
+    @BindView(R.id.home_timer_list)
+    RecyclerView timerList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,18 +63,46 @@ public class HomeFragment extends BaseFragment {
 
         timers.addChangeListener(this::updateList);
 
+        mLayoutManager = new LinearLayoutManager(getActivity());
+
+        timerAdapter = new TimerAdapter(timers);
+        timerList.setHasFixedSize(true);
+        timerList.setAdapter(timerAdapter);
+        timerList.setLayoutManager(mLayoutManager);
+        timerList.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity().getBaseContext(), (view, position) -> onItemSelect(position))
+        );
+
+
         return rootView;
+    }
+
+    private void onItemSelect(int position) {
+        Timber.d("Item clicked %d", position);
     }
 
     private void updateList(RealmResults<Timer> repositories) {
         for (Timer timer : timers) {
             Timber.d("timer: %s", timer.getName());
         }
+        timerAdapter.setItems(timers);
     }
 
     @OnClick(R.id.home_fab)
     public void addTimer() {
+        Timer timer = new Timer();
+        timer.setName("Test");
+        timer.setTime(0);
+        saveTimer(timer);
+    }
 
+    private void saveTimer(Timer timer) {
+        realm.beginTransaction();
+        Timer dbTimer = realm.createObject(Timer.class, PrimaryKeyFactory.getInstance().nextKey(Timer.class));
+        dbTimer.setName(timer.getName());
+        dbTimer.setTime(timer.getTime());
+        realm.copyToRealm(dbTimer);
+        realm.commitTransaction();
     }
 
     @Override

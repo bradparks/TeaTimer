@@ -39,7 +39,6 @@ public class BaseApplication extends Application {
 
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().build();
-        Realm.deleteRealm(config);
         Realm.setDefaultConfiguration(config);
         PrimaryKeyFactory.getInstance().initialize(Realm.getDefaultInstance());
     }
