@@ -4,14 +4,13 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class Repository extends RealmObject {
+public class Timer extends RealmObject {
 
     @PrimaryKey
     private long id;
 
     String name;
-    String fullName;
-    String description;
+    long time;
 
     public long getId() {
         return id;
@@ -29,19 +28,11 @@ public class Repository extends RealmObject {
         this.name = name;
     }
 
-    public String getFullName() {
-        return fullName;
+    public long getTime() {
+        return time;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTime(long time) {
+        this.time = time;
     }
 }

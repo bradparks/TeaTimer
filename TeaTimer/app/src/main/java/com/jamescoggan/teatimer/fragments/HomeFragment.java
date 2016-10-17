@@ -15,46 +15,25 @@
  */
 package com.jamescoggan.teatimer.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.jamescoggan.teatimer.R;
-import com.jamescoggan.teatimer.Utils.PrimaryKeyFactory;
 import com.jamescoggan.teatimer.baseclasses.BaseFragment;
-import com.jamescoggan.teatimer.models.Repository;
-import com.jamescoggan.teatimer.network.interfaces.GitHubApiInterface;
-
-import javax.inject.Inject;
+import com.jamescoggan.teatimer.models.Timer;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import retrofit2.Retrofit;
-import rx.Observable;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class HomeFragment extends BaseFragment {
 
-    @Inject
-    SharedPreferences mSharedPreferences;
-
-    @Inject
-    Retrofit mRetrofit;
-
-    @Inject
-    GitHubApiInterface mGitHubApiInterface;
-
     private Realm realm;
-    private Subscription subscription;
-    RealmResults<Repository> repos;
+    RealmResults<Timer> timers;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,73 +45,24 @@ public class HomeFragment extends BaseFragment {
         assert rootView != null;
         ButterKnife.bind(this, rootView);
 
-        getApp().getGitHubComponent().inject(this);
-
         realm = Realm.getDefaultInstance();
 
-        repos = realm.where(Repository.class).findAll();
+        timers = realm.where(Timer.class).findAll();
 
-        repos.addChangeListener(this::updateList);
+        timers.addChangeListener(this::updateList);
 
         return rootView;
     }
 
-    private void updateList(RealmResults<Repository> repositories) {
-        for (Repository repository : repositories) {
-            Timber.d("Repo: %s", repository.getName());
+    private void updateList(RealmResults<Timer> repositories) {
+        for (Timer timer : timers) {
+            Timber.d("timer: %s", timer.getName());
         }
     }
 
     @OnClick(R.id.home_fab)
-    public void onFabClick() {
-        subscription = mGitHubApiInterface.getRepository("codepath")
-                .flatMap(Observable::from)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onNextRepository,
-                        this::onErrorRepository,
-                        this::onCompleteRepository);
-    }
+    public void addTimer() {
 
-    private void onNextRepository(Repository repository) {
-        Timber.d("Received repo %s", repository.getFullName());
-        assert getView() != null;
-
-        saveRepo(repository);
-
-        Snackbar.make(getView(), "Data retrieved", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
-    }
-
-    // Todo: improve this
-    private void saveRepo(Repository repository) {
-        RealmResults<Repository> list = realm.where(Repository.class).equalTo("name", repository.getName()).findAll();
-
-        // If we have object, Update
-        if (list.size() > 0) {
-            realm.beginTransaction();
-            repository.setId(list.first().getId());
-            realm.copyToRealmOrUpdate(repository);
-            realm.commitTransaction();
-
-        } else {
-            // insert new value
-            realm.beginTransaction();
-            Repository dbRepo = realm.createObject(Repository.class, PrimaryKeyFactory.getInstance().nextKey(Repository.class));
-            dbRepo.setName(repository.getName());
-            dbRepo.setDescription(repository.getDescription());
-            dbRepo.setFullName(repository.getFullName());
-            realm.copyToRealm(dbRepo);
-            realm.commitTransaction();
-        }
-    }
-
-    private void onCompleteRepository() {
-        Timber.d("Completed request");
-    }
-
-    private void onErrorRepository(Throwable throwable) {
-        throwable.printStackTrace();
     }
 
     @Override
@@ -144,7 +74,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        subscription.unsubscribe();
     }
 
     @Override
