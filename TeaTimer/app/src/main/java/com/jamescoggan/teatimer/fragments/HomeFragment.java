@@ -16,14 +16,17 @@
 package com.jamescoggan.teatimer.fragments;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.jamescoggan.teatimer.R;
 import com.jamescoggan.teatimer.Utils.PrimaryKeyFactory;
+import com.jamescoggan.teatimer.Views.TimeDialogView;
 import com.jamescoggan.teatimer.adapters.RecyclerItemClickListener;
 import com.jamescoggan.teatimer.adapters.TimerAdapter;
 import com.jamescoggan.teatimer.baseclasses.BaseFragment;
@@ -34,6 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 import timber.log.Timber;
 
 public class HomeFragment extends BaseFragment {
@@ -59,7 +63,7 @@ public class HomeFragment extends BaseFragment {
 
         realm = Realm.getDefaultInstance();
 
-        timers = realm.where(Timer.class).findAll();
+        timers = realm.where(Timer.class).findAll().sort("id", Sort.DESCENDING);
 
         timers.addChangeListener(this::updateList);
 
@@ -79,21 +83,36 @@ public class HomeFragment extends BaseFragment {
 
     private void onItemSelect(int position) {
         Timber.d("Item clicked %d", position);
+        Timer timer = timerAdapter.getItemAtPosition(position);
+        new CountDownTimer(timer.getTime(), 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                Timber.d("Seconds remaining %d", millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                Timber.d("Finished");
+            }
+        }.start();
     }
 
     private void updateList(RealmResults<Timer> repositories) {
-        for (Timer timer : timers) {
-            Timber.d("timer: %s", timer.getName());
-        }
         timerAdapter.setItems(timers);
     }
 
     @OnClick(R.id.home_fab)
     public void addTimer() {
-        Timer timer = new Timer();
-        timer.setName("Test");
-        timer.setTime(0);
-        saveTimer(timer);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_time_picker, null);
+        final TimeDialogView timeDialogView = new TimeDialogView(view);
+        new MaterialDialog.Builder(getActivity())
+                .backgroundColorRes(R.color.dialog_background_color)
+                .titleColorRes(R.color.dialog_title_color)
+                .title(R.string.home_dialog_time_title)
+                .customView(view, false)
+                .positiveText(android.R.string.ok)
+                .negativeText(android.R.string.cancel)
+                .onPositive((dialog, which) -> saveTimer(timeDialogView.getTimer()))
+                .show();
     }
 
     private void saveTimer(Timer timer) {
